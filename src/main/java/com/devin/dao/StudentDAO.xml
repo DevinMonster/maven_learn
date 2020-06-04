@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.devin.dao.StudentDAO">
+    <select id="getStudents" resultType="com.devin.com.devin.entity.Student">
+        select * from tb_student order by studentNo;
+    </select>
+
+    <insert id="insertStudent">
+        insert into tb_student values (#{studentID}, #{studentName}, #{studentNo}, #{gender}, #{age}, #{className},#{timeRenew})
+    </insert>
+</mapper>

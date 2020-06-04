@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--id属性名字 唯一的
+    class属性 配置全限定名-->
+    <bean id="person1" name="p,sb" class="com.devin.spring.demo.Person"/>
+
+    <bean id="person" class="com.devin.spring.demo.Person">
+        <property name="id">
+            <value>1</value>
+        </property>
+        <property name="name">
+            <value>郭峻溪</value>
+        </property>
+        <property name="emails">
+            <list>
+                <value>942668138@qq.com</value>
+                <value>513507957@qq.com</value>
+                <value>123456789@qq.com</value>
+            </list>
+        </property>
+        <property name="codes">
+            <set>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+                <value>4</value>
+                <value>4</value>
+                <value>5</value>
+                <value>4</value>
+            </set>
+        </property>
+        <property name="phone_nums">
+            <list>
+                <value>1381111111</value>
+                <value>1321111111</value>
+                <value>1331111111</value>
+                <value>1381111111</value>
+                <value>1341111111</value>
+            </list>
+        </property>
+        <property name="qqs">
+            <map>
+                <entry>
+                    <key>
+                        <value>1</value>
+                    </key>
+                    <!--<value>
+                        41564654
+                    </value>-->
+                    <!--此种写法会产生如下效果:
+                    value =
+                                        41564654
+                                        最好写到一行-->
+                    <value>465454654</value>
+                </entry>
+            </map>
+        </property>
+        <property name="p">
+            <props>
+                <prop key="key1">vl1</prop>
+                <prop key="key2">vl2</prop>
+                <prop key="key3">vl3</prop>
+            </props>
+        </property>
+    </bean>
+
+
+<!--    <bean id="service" class="com.devin.spring.demo.UserServiceImpl">-->
+<!--        <property name="userDAO">-->
+<!--        这种写法会存在问题:1. 代码冗余 2. 多次使用UserDAO对象时会造成内存资源浪费
+            <bean class="com.devin.spring.demo.UserDAOImpl"/>-->
+<!--        </property>-->
+<!--</bean>-->
+<!--    这样写欧克-->
+    <bean id="userDAO" class="com.devin.spring.demo.UserDAOImpl"/>
+
+    <bean id="service" class="com.devin.spring.demo.UserServiceImpl">
+        <property name="userDAO">
+            <ref bean="userDAO"/>
+        </property>
+    </bean>
+
+<!--简化配置代码    -->
+    <bean id="user" class="com.devin.spring.demo.Person">
+        <property name="name" value="123"/>
+    </bean>
+
+    <!--<bean id="ser" class="com.devin.spring.demo.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>-->
+    <bean id="ser" class="com.devin.spring.demo.UserServiceImpl" p:userDAO-ref="userDAO"/>
+
+    <bean id="per" class="com.devin.spring.demo.Person" p:name="xiaojr" p:id="100"/>
+    <!--<bean class="com.devin.spring.demo.Person" />
+    <bean class="com.devin.spring.demo.Person" />
+    <bean class="com.devin.spring.demo.Person" />-->
+    <bean id="customer" class="com.devin.spring.demo.constructer.Customer">
+        <constructor-arg name="age">
+            <value>10</value>
+        </constructor-arg>
+        <constructor-arg name="name">
+            <value>hhh</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- 这里创建的是Connection对象,不是FactoryBean对象 -->
+    <bean id="conn" class="com.devin.factorybean.ConnectionFactoryBean">
+        <property name="driver_class_name" value="com.mysql.jdbc.Driver"/>
+        <property name="conn_url" value="jdbc:mysql://localhost:3306/studentsinfo?useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!-- 实例工厂创建对象-->
+    <bean id="connFactory" class="com.devin.factorybean.ConnectionFactory"/>
+
+<!--    <bean id="conn" factory-bean="connFactory" factory-method="getConnection"/>-->
+
+    <!--静态工厂创建对象-->
+    <bean id="conn1" class="com.devin.factorybean.StaticConnectionFactory" factory-method="getConnection"/>
+
+    <!--单例设计模式-->
+    <bean id="account" scope="singleton" class="com.devin.spring.demo.Account"/>
+
+
+    <bean id="product" class="com.devin.life.Product" init-method="doInBack" destroy-method="mydestory"/>
+
+</beans>

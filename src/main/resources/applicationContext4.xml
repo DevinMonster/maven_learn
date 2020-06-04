@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="userService" class="com.devin.proxy.UserServiceImpl"/>
+    <bean id="orderService" class="com.devin.proxy.OrderServiceImpl"/>
+
+<!--    <bean id="before" class="com.devin.dynamic.Before"/>-->
+    <bean id="around" class="com.devin.dynamic.Around"/>
+    <aop:config>
+        <!-- 所有方法都作为切入点加入额外功能 -->
+<!--        <aop:pointcut id="pc" expression="execution(* *(..))"/>-->
+<!--        <aop:pointcut id="pc" expression="execution(* com.devin.proxy.OrderService.showOrder(..))"/>-->
+            <!--根据注解类型找到对应的方法-->
+<!--        <aop:pointcut id="pc" expression="@annotation(com.devin.Log)"/>-->
+<!--        <aop:pointcut id="pc" expression="execution(* login(..)) and args(String,String)"/>-->
+<!--        <aop:pointcut expression="execution(* login(..)) or execution(* register(..))" id="pc"/>-->
+        <aop:pointcut id="pc" expression="@annotation(com.devin.Log) and @annotation(com.devin.Reg)"/>
+       <!--组装-->
+        <aop:advisor advice-ref="around" pointcut-ref="pc"/>
+
+    </aop:config>
+</beans>

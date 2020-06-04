@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <properties resource="db.properties"/>
+    <!--环境配置: 数据库的连接信息
+        default: 表示使用哪个数据库作为连接.
+     -->
+    <environments default="development">
+        <!--environment: 一个环境的配置信息,
+            id: 唯一值,表示环境名称
+        -->
+        <environment id="development">
+            <!-- 事务类型: mybatis中的事务类型
+                type: JDBC中Connection对象的commit,rollback做事务处理
+            -->
+            <transactionManager type="JDBC"/>
+            <!--表示数据源
+                type:表示数据源类型, POOLED表示使用连接池
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+    <!--        <mapper resource="org/mybatis/example/BlogMapper.xml"/>-->
+        <mapper resource="com/devin/dao/StudentDAO.xml"/>
+    </mappers>
+</configuration>
